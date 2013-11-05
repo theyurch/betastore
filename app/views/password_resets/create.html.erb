@@ -1,0 +1,11 @@
+<h1>Forgot password!</h1>
+
+
+<p>
+  Don't have an account? 
+  <%= link_to "Sign Up", sign_up_path %>
+</p>
+
+<% if flash[:alert] %>
+  <p style="color: red"><%= flash[:alert] %></p>
+<% end %>

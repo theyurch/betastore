@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+yesterday:
+  placed_at: <%= 1.day.ago %> 
+
+ten_days_ago:
+  placed_at: <%= 10.days.ago %>

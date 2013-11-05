@@ -7,43 +7,43 @@
 	</head>
 	<body>
 		<h1>Betastore</h1>
+
+		<% if logged_in? %>
+			<%= link_to "Log Out", log_out_path, method: 'post' %>
+		<% else %>
+			<%= link_to "Log In", log_in_path %>
+		<% end %>
 		<table class="cell">
-			<tr>
-				<td>
-					<a href="hat.html">
-						<img src="http://pjb3.github.io/betastore/products/hat.jpg">Hat
-					</a>
-				</td>
 
-				<td>
-					<a href="hoodie.html">
-						<img src="http://pjb3.github.io/betastore/products/hoodie.jpg">Hoodie
-					</a>
-				</td>
+<%= link_to '#' do %>
+	Cart (<span id="cart_item_count"><%= cart_item_count %></span>)
+<% end %>
 
-				<td>
-					<a href="iPhone.html">
-						<img src="http://pjb3.github.io/betastore/products/iphone_case.jpg">iPhone case
+		<% @linecount = 0 %>
+		<% @products.each do |product| %>
+			<% @name = product.name %>
+			<% @price = product.price %>
+			<% @create_time = time_ago_in_words product.created_at %>
+
+			<% if @linecount == 0 then %>
+				<tr>
+			<% end %>
+			<td>
+				<h1>	
+					<a href="<%= product_path(product) %>">
+						<img src="http://pjb3.github.io/betastore/products/<%= @name %>.jpg"><%= @name + " cost " + (number_to_currency @price) + " created " + @create_time + " ago" %>
 					</a>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<a href="journal.html">
-						<img src="http://pjb3.github.io/betastore/products/journal.jpg">Journal
-					</a>
-				</td>
-				<td>
-					<a href="shirt.html">
-						<img src="http://pjb3.github.io/betastore/products/shirt.jpg">Shirt
-					</a>
-				</td>
-				<td>
-					<a href="sticker.html">
-						<img src="http://pjb3.github.io/betastore/products/sticker.jpg">Sticker
-					</a>
-				</td>
-			</tr>
+					<%= button_to "Add To Cart", add_to_cart_path(product), class: 'btn btn-primary add_to_cart' %>
+				</h1>
+			</td>
+			<% if @linecount == 2 then %>
+				<% @linecount = 0 %>
+				</tr>
+			<% else %>
+				<% @linecount += 1 %>
+			<% end %>	
+		<% end %>
+
 		</table>
 		
 	</body>

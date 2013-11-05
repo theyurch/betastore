@@ -10,6 +10,22 @@ gem 'pg'
 gem 'rails_12factor', group: :production
 ruby "2.0.0"
 
+#password encrypt
+gem 'bcrypt-ruby', '~> 3.0.0'
+
+
+gem 'httparty'
+#to use the api
+
+#look into hirb::View.enable
+
+#hirb
+group :development do
+  gem 'hirb'
+  gem 'quiet_assets'
+  # gem 'pry'
+end
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

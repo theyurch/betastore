@@ -9,5 +9,22 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require bootstrap
+ *= require bootstrap-theme
  *= require_tree .
  */
+
+.cell {
+	text-align: center;
+}
+
+.cell a:link {text-decoration:none;}
+.cell a:visited {text-decoration:none;} 
+
+.cell a:hover {text-decoration:none;}
+.cell a:active {text-decoration:none;}
+
+.cell a:link {color:#000000;}
+.cell a:visited {color:#000000;}
+.cell a:hover {color:#000000;}  
+.cell a:active {color:#000000;} 

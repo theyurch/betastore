@@ -1,0 +1,14 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+test:
+  name: Example
+  price: 9.99
+
+
+one:
+  name: MyString
+  price: 9.99
+
+two:
+  name: MyString
+  price: 9.99
