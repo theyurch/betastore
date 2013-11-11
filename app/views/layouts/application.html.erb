@@ -8,6 +8,14 @@
 </head>
 <body>
 
+      <% if flash[:alert] %>
+        <p class="alert alert-warning"><%= flash[:alert] %></p>
+      <% end %>
+
+      <% if flash[:notice] %>
+        <p class="alert alert-success"><%= flash[:notice] %></p>
+      <% end %>
+      
 <%= yield %>
 
 </body>

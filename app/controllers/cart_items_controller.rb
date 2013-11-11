@@ -1,6 +1,14 @@
 class CartItemsController < ApplicationController
 
 	skip_before_filter :require_log_in
+		
+	def index
+		@cart_items = Hash(session[:cart]).map do |pid, qty|
+			CartItem.new(Product.find(pid), qty)
+		end
+		render layout: !request.xhr?
+	end
+
 
 	def create
 		session[:cart] ||= Hash.new(0)

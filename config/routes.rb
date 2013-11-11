@@ -4,6 +4,7 @@ Betastore::Application.routes.draw do
     root :to => 'products#index'
   end
 
+  get '/cart' => 'cart_items#index', as: 'cart_items'
   post '/products/:product_id/cart_items' => 'cart_items#create', as: 'add_to_cart'
 
   resources :subscriptions
@@ -24,11 +25,22 @@ Betastore::Application.routes.draw do
   get '/reset_password/:id/:token' => 'password_resets#edit', as: 'reset_password'
   post '/reset_password/:id/:token' => 'password_resets#update'
 
+  get '/checkout' => 'orders#new', as: 'checkout'
+  # display a form with button to submit order
+  post '/checkout' => 'orders#create'
+# redirect to home with flash that order was placed
+
+# create an action for new that renders a form 
+# create gets posted to
+
+  
 
 
-  resources :orders do
-    resources :refund
-  end
+
+
+  # resources :orders do
+  #   resources :refund
+  # end
 
   #root :to => 'subscriptions#new'
   #root :to => 'subscriptions#index'

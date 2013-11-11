@@ -15,9 +15,11 @@
 		<% end %>
 		<table class="cell">
 
-<%= link_to '#' do %>
-	Cart (<span id="cart_item_count"><%= cart_item_count %></span>)
-<% end %>
+		<%= link_to cart_items_path, class: 'cart' do %>
+			Cart (<span id="cart_item_count"><%= cart_item_count %></span>)
+		<% end %>
+
+		<div id="cart" style="display: none"></div>
 
 		<% @linecount = 0 %>
 		<% @products.each do |product| %>
