@@ -1,0 +1,27 @@
+<h1>Listing admin_orders</h1>
+
+
+    <% @orders.each do |order| %>
+      <% scope = @line_items.where('order_id = ?', order.id) %>
+        <% scope.each do |li| %>
+          id: <%= li.product_id %>
+          | price: <%= li.price %>
+          | qty: <%= li.quantity %> |
+        <% end %>
+        <br>
+        :<%= order.tracking_number %>:
+
+
+
+        <%= form_for [:admin, order] do |f| %>
+        <div>
+          <%= f.label :tracking_number %>
+          <%= f.text_field :tracking_number %>
+        </div>
+        <% end %>
+
+
+
+        total: <%= order.total_amount %> |
+        <br>
+    <% end %>

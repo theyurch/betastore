@@ -20,7 +20,7 @@
 		<% end %>
 
 		<div id="cart" style="display: none"></div>
-
+		<%= paginate @products %>
 		<% @linecount = 0 %>
 		<% @products.each do |product| %>
 			<% @name = product.name %>

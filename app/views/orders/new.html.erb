@@ -1,6 +1,6 @@
 <h1>Checkout</h1>
 
-<%= form_for(@order, url: checkout_path) do |f| %>
+<%= form_for @order, url: checkout_path, html: { class: 'form-horizontal', role: 'form' } do |f| %>
 <table class="table">
 <tr>
 <th>Product</th>
@@ -13,13 +13,12 @@
       <% line_item = line_item_fields.object %>
       <%= line_item_fields.hidden_field :product_id %>
 
-<tr>
+	<tr>
         <td><%= line_item.product.name %></td>
         <td><%= line_item_fields.text_field :quantity %></td>
         <td><%= number_to_currency line_item.product.price %></td>
         <td><%= number_to_currency line_item.total_price %></td>
-
-</tr>
+	</tr>
 <% end %>
 <tr>
 	<td colspan=3>
@@ -28,6 +27,24 @@
 	<td><%= number_to_currency @order.total_price %></td>
 </tr>
 </table>
+
+<!-- cardholder_name :string
+card_number :string
+exp_month :integer
+exp_year :integer
+ -->
+
+<%= f.fields_for :credit_card do |credit_card_fields| %>
+	<% credit_card = credit_card_fields.object %>
+	<br>name<br>
+	<%= credit_card_fields.text_field :cardholder_name %>
+	<br>number<br>
+	<%= credit_card_fields.text_field :card_number %>
+	<br>month<br>
+	<%= credit_card_fields.text_field :exp_month %>
+	<br>year<br>
+	<%= credit_card_fields.text_field :exp_year %>
+<% end %>
 
 	<%= submit_tag "Submit Order", class: 'btn btn_success' %>
 <% end %>

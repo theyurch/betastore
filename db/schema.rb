@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131011001531) do
+ActiveRecord::Schema.define(version: 20131120172114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,21 @@ ActiveRecord::Schema.define(version: 20131011001531) do
   create_table "beta_products", force: true do |t|
     t.string   "name"
     t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "categories", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "credit_cards", force: true do |t|
+    t.string   "cardholder_name"
+    t.string   "card_number"
+    t.integer  "exp_month"
+    t.integer  "exp_year"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,8 +64,11 @@ ActiveRecord::Schema.define(version: 20131011001531) do
     t.decimal  "total_amount"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "credit_card_id"
+    t.string   "tracking_number"
   end
 
+  add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id", using: :btree
   add_index "orders", ["customer_id"], name: "index_orders_on_customer_id", using: :btree
 
   create_table "password_resets", force: true do |t|
@@ -63,11 +81,22 @@ ActiveRecord::Schema.define(version: 20131011001531) do
 
   add_index "password_resets", ["customer_id"], name: "index_password_resets_on_customer_id", using: :btree
 
+  create_table "product_categorizations", force: true do |t|
+    t.integer  "category_id"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "product_categorizations", ["category_id"], name: "index_product_categorizations_on_category_id", using: :btree
+  add_index "product_categorizations", ["product_id"], name: "index_product_categorizations_on_product_id", using: :btree
+
   create_table "products", force: true do |t|
     t.string   "name"
     t.decimal  "price"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "qty"
   end
 
   create_table "subscriptions", force: true do |t|

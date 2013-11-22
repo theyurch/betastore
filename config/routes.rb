@@ -1,8 +1,14 @@
 Betastore::Application.routes.draw do
   namespace :admin do
     resources :products
+    resources :orders
     root :to => 'products#index'
   end
+
+  # resources :categories do
+  #   resources :products, only: [:index]
+  # end
+  get '/categories/:category_id/products' => 'products#index', as: 'category_products'
 
   get '/cart' => 'cart_items#index', as: 'cart_items'
   post '/products/:product_id/cart_items' => 'cart_items#create', as: 'add_to_cart'

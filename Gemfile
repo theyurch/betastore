@@ -23,6 +23,7 @@ gem 'httparty'
 group :development do
   gem 'hirb'
   gem 'quiet_assets'
+  gem 'faker'
   # gem 'pry'
 end
 
@@ -51,6 +52,9 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
+
+gem 'kaminari'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
