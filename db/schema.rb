@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131120172114) do
+ActiveRecord::Schema.define(version: 20131203233309) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,12 +30,14 @@ ActiveRecord::Schema.define(version: 20131120172114) do
   end
 
   create_table "credit_cards", force: true do |t|
-    t.string   "cardholder_name"
-    t.string   "card_number"
     t.integer  "exp_month"
     t.integer  "exp_year"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "customer_id"
+    t.string   "stripe_token"
+    t.string   "card_type"
+    t.string   "last_4"
   end
 
   create_table "customers", force: true do |t|
@@ -44,6 +46,7 @@ ActiveRecord::Schema.define(version: 20131120172114) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "password_digest"
+    t.string   "stripe_token"
   end
 
   create_table "line_items", force: true do |t|

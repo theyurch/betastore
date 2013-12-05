@@ -55,9 +55,14 @@ end
 
 gem 'kaminari'
 
+gem 'stripe'
+
+
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+ gem 'bcrypt-ruby', '~> 3.0.0'
+ # gem uninstall bcrypt-ruby'
+ # gem install bcrypt-ruby --version='3.0.1' --platform=ruby --no-ri --no-rdoc
 
 # Use unicorn as the app server
 # gem 'unicorn'

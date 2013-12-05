@@ -1,6 +1,56 @@
+<% content_for :head do %>
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	<script type="text/javascript">
+	  // This identifies your website in the createToken call below
+	  Stripe.setPublishableKey('pk_test_W2cIIlTywZ7R8lnUTu1Yy7Sa');
+	  // ...
+
+    jQuery(function($) {
+      var stripeResponseHandler = function(status, response) {
+        var $form = $('#payment-form');
+
+        if (response.error) {
+          // Show the errors on the form
+          $form.find('.payment-errors').text(response.error.message);
+          $form.find('button').prop('disabled', false);
+        } else {
+          // response contains id, last4, and card type
+
+          // Set values on hidden fields
+          $('#stripe_customer_token').val(response.id);
+          $('#stripe_token').val(response.card.id);
+          $('#card_type').val(response.card.type);
+          $('#last_4').val(response.card.last4);
+
+          // Remove other values we don't want sent to our server
+          $('#card_number').val('');
+          $('#cvc').val('');
+
+          // submit
+          $form.get(0).submit();
+        }
+      };
+      $('#payment-form').submit(function(event) {
+        var $form = $(this);
+
+        // Disable the submit button to prevent repeated clicks
+        $form.find('button').prop('disabled', true);
+
+        Stripe.card.createToken($form, stripeResponseHandler);
+
+        // Prevent the form from submitting with the default action
+        return false;
+      });
+    });
+	</script>
+
+
+<% end %>
+
+
 <h1>Checkout</h1>
 
-<%= form_for @order, url: checkout_path, html: { class: 'form-horizontal', role: 'form' } do |f| %>
+<%= form_for @order, url: checkout_path, html: { id: 'payment-form', class: 'form-horizontal', role: 'form' } do |f| %>
 <table class="table">
 <tr>
 <th>Product</th>
@@ -28,23 +78,46 @@
 </tr>
 </table>
 
-<!-- cardholder_name :string
-card_number :string
-exp_month :integer
-exp_year :integer
- -->
+  <%= f.fields_for :credit_card do |cc| %>
+    <%= hidden_field_tag :stripe_customer_token %>
+    <%= cc.hidden_field :stripe_token, id: 'stripe_token' %>
+    <%= cc.hidden_field :card_type, id: 'card_type' %>
+    <%= cc.hidden_field :last_4, id: 'last_4' %>
 
-<%= f.fields_for :credit_card do |credit_card_fields| %>
-	<% credit_card = credit_card_fields.object %>
-	<br>name<br>
-	<%= credit_card_fields.text_field :cardholder_name %>
-	<br>number<br>
-	<%= credit_card_fields.text_field :card_number %>
-	<br>month<br>
-	<%= credit_card_fields.text_field :exp_month %>
-	<br>year<br>
-	<%= credit_card_fields.text_field :exp_year %>
-<% end %>
+    <div class="form-group">
+      <%= label_tag :card_number, 'Card Number', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-2">
+        <%= text_field_tag :card_number, nil, size: 16, maxlength: 16, class: 'form-control', data: { stripe: 'number' } %>
+      </div>
+      <div class="col-sm-8"></div>
+    </div>
 
-	<%= submit_tag "Submit Order", class: 'btn btn_success' %>
+    <div class="form-group">
+      <%= label_tag :cvc, 'CVC', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-1">
+        <%= text_field_tag :cvc, nil, size: 4, maxlength: 4, class: 'form-control', data: { stripe: 'cvc' } %>
+      </div>
+      <div class="col-sm-9"></div>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag :exp_month, 'Expiration Month', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-1">
+        <%= cc.text_field :exp_month, size: 2, maxlength: 2, class: 'form-control', data: { stripe: 'exp-month' } %>
+      </div>
+      <div class="col-sm-9"></div>
+    </div>
+
+    <div class="form-group">
+      <%= label :exp_year, 'Expiration Year', class: 'col-sm-2 control-label' %>
+      <div class="col-sm-1">
+        <%= cc.text_field :exp_year, size: 4, maxlength: 4, class: 'form-control', data: { stripe: 'exp-year' } %>
+      </div>
+      <div class="col-sm-9"></div>
+    </div>
+  <% end %>
+
+  <div class="col-sm-12">
+    <button type="submit" class="btn btn-success">Submit Order</button>
+  </div>
 <% end %>

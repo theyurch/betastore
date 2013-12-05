@@ -2,7 +2,8 @@ Betastore::Application.routes.draw do
   namespace :admin do
     resources :products
     resources :orders
-    root :to => 'products#index'
+    root :to => 'dashboard#index'
+    # root :to => 'products#index'
   end
 
   # resources :categories do

@@ -10,7 +10,7 @@ class Admin::OrdersController < ApplicationController
   def show
   	@order = Order.find(params[:id])
   end
-
+  
   def update
   	redirect_to admin_orders_path
   end

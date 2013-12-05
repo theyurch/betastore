@@ -1,5 +1,4 @@
 class OrdersController < ApplicationController
-	skip_before_filter :require_log_in, only: [:new, :create]
 
 	def new
 
@@ -7,8 +6,6 @@ class OrdersController < ApplicationController
 		@order.build_credit_card
 		Hash(session[:cart]).each do |pid, qty|
 			@order.line_items.build(
-			# LineItem.new(
-				# order: @order
 				product_id: pid,
 				quantity: qty)
 		end
@@ -17,8 +14,33 @@ class OrdersController < ApplicationController
 	end
 
 	def create
+
 		@order = Order.new(order_params)
+		@order.credit_card.customer = current_customer
+
 		if @order.save
+			# Create a Customer
+
+		logger.debug "yarp"
+		logger.debug current_customer.inspect
+		logger.debug current_customer.email.inspect
+		logger.debug @order.inspect
+		logger.debug params[:stripe_customer_token]
+
+
+	        customer = Stripe::Customer.create(
+    	    :card => params[:stripe_customer_token],
+          	:description => current_customer.email)
+        logger.debug customer
+	    logger.debug "narp"
+
+        	current_customer.update_attributes!(stripe_token: customer.id)
+
+	        Stripe::Charge.create(
+	          :amount => @order.total_amount_in_cents,
+	          :currency => "usd",
+	          :customer => current_customer.stripe_token)
+
 			redirect_to '/', notice: 'Your order has been placed'
 		else
 			flash.now[:alert] = @order.errors.full_messages.join(', ')
@@ -35,15 +57,9 @@ class OrdersController < ApplicationController
   	def order_params
   		params.require(:order).permit(
   			line_items_attributes: [:product_id, :quantity], 
-  			credit_card_attributes: [:cardholder_name, :card_number, :exp_month, :exp_year]
+  			credit_card_attributes: [:stripe_token, :card_type, :last_4, :exp_month, :exp_year]
   			)
-
-# cardholder_name :string
-# card_number :string
-# exp_month :integer
-# exp_year :integer
-# rails generate migration AddCreditCardRefToOrders credit_card:references
-
+# get from git
   	end
 
 end
