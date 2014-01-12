@@ -16,23 +16,23 @@ class OrdersController < ApplicationController
 	def create
 
 		@order = Order.new(order_params)
+		@order.customer = current_customer
+		@order.
 		@order.credit_card.customer = current_customer
 
 		if @order.save
-			# Create a Customer
 
-		logger.debug "yarp"
-		logger.debug current_customer.inspect
-		logger.debug current_customer.email.inspect
-		logger.debug @order.inspect
-		logger.debug params[:stripe_customer_token]
-
+		# logger.debug "card info start"
+		# logger.debug current_customer.inspect
+		# logger.debug current_customer.email.inspect
+		# logger.debug @order.inspect
+		# logger.debug params[:stripe_customer_token]
 
 	        customer = Stripe::Customer.create(
     	    :card => params[:stripe_customer_token],
           	:description => current_customer.email)
-        logger.debug customer
-	    logger.debug "narp"
+     #    logger.debug customer
+	    # logger.debug "card info end"
 
         	current_customer.update_attributes!(stripe_token: customer.id)
 
@@ -50,7 +50,6 @@ class OrdersController < ApplicationController
 	end
 
   	def index
-    	# Do Something
   	end
 
   	protected
@@ -59,7 +58,6 @@ class OrdersController < ApplicationController
   			line_items_attributes: [:product_id, :quantity], 
   			credit_card_attributes: [:stripe_token, :card_type, :last_4, :exp_month, :exp_year]
   			)
-# get from git
   	end
 
 end

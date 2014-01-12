@@ -4,6 +4,7 @@ class Order < ActiveRecord::Base
   has_many :line_items
 
   before_save :set_total_amount
+  before_save :set_placed_at
 
   accepts_nested_attributes_for :line_items, :credit_card
 
@@ -23,6 +24,10 @@ class Order < ActiveRecord::Base
   	line_items.inject(0) do |sum, li|
   		li.total_price + sum
   	end
+  end
+
+  def set_placed_at
+    self.placed_at ||= Time.now
   end
 
   def set_total_amount

@@ -1,19 +1,4 @@
 <h1>Log In</h1>
-<!-- 
-<form method="POST" action="/log_in">
-  <label>
-    Email
-    <input type="email" name="email" />
-  </label>
-
-  <label>
-    Password
-    <input type="password" name="password" />
-  </label>
-
-  <button type="submit">Log In</button>
-</form>
- -->
 
 <% if flash[:alert] %>
   <p style="color: red"><%= flash[:alert] %></p>
@@ -37,3 +22,8 @@
 	Don't have an account? 
 	<%= link_to "Sign Up", sign_up_path %>
 </p>
+
+<p>
+  Forgot your password?
+  <%= link_to "Forgot Password", forgot_password_path %>
+  </p>

@@ -19,6 +19,9 @@
 			Cart (<span id="cart_item_count"><%= cart_item_count %></span>)
 		<% end %>
 
+
+
+
 		<div id="cart" style="display: none"></div>
 		<%= paginate @products %>
 		<% @linecount = 0 %>
@@ -31,12 +34,10 @@
 				<tr>
 			<% end %>
 			<td>
-				<h1>	
-					<a href="<%= product_path(product) %>">
-						<img src="http://pjb3.github.io/betastore/products/<%= @name %>.jpg"><%= @name + " cost " + (number_to_currency @price) + " created " + @create_time + " ago" %>
-					</a>
-					<%= button_to "Add To Cart", add_to_cart_path(product), class: 'btn btn-primary add_to_cart' %>
-				</h1>
+				<a href="<%= product_path(product) %>">
+					<img src="http://pjb3.github.io/betastore/products/<%= @name %>.jpg"><b><%= @name %></b> <br> <%= " cost " + (number_to_currency @price) %> <br> <%= " created " + @create_time + " ago" %>
+				</a>
+				<%= button_to "Add To Cart", add_to_cart_path(product), class: 'btn btn-primary add_to_cart' %>
 			</td>
 			<% if @linecount == 2 then %>
 				<% @linecount = 0 %>

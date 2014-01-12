@@ -4,10 +4,8 @@ class Admin::DashboardController < ApplicationController
     sql = %{
 select date(placed_at), count(*), sum(total_amount)
 from orders
-where placed_at > '#{30.days.ago}'
 group by date(placed_at)
 order by date(placed_at)}
     @days = Order.connection.select_rows(sql)
   end
-# i had to fake these
 end

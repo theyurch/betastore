@@ -4,12 +4,8 @@
       google.load("visualization", "1", {packages:["corechart"]});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Day', 'Orders', 'Revenue']
-          <% @days.each do |ele| %>
-            ,<%= ele.to_json.gsub('"', '') %>
-          <% end %>    
-        ]);
+        var data = google.visualization.arrayToDataTable(
+          <%= raw(([['Day', 'Orders', 'Revenue']] + @days).to_json)%>);
 
         var options = {
           title: 'Revenue By Day'
@@ -22,12 +18,12 @@
 <% end %>
 
 <h2>Orders</h2>
-
+<!-- just to see what's getting sent here - what's wrong? -->
 <div id="chart_div" style="width: 900px; height: 500px;"></div>
           <% @days.each do |ele| %>
             ,<%= ele.to_json.gsub('"', '') %>
           <% end %>          
-          
+          <%= raw(([['Day', 'Orders', 'Revenue']] + @days).to_json)%>
 <table class="table">
   <tr>
     <th>Day</th>
